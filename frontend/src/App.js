@@ -3,15 +3,15 @@ import { io } from 'socket.io-client';
 import RaceScene from './components/RaceScene';
 import GPUForm from './components/GPUForm';
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 
-  (window.location.hostname === 'localhost' 
-    ? 'http://localhost:3001' 
-    : `http://${window.location.hostname}:3001`);
+const SOCKET_URL = process.env.NODE_ENV === 'production'
+  ? 'https://bench2bench.onrender.com'  // Your Render URL
+  : 'http://localhost:3001';
 
 const socket = io(SOCKET_URL, {
   withCredentials: false,
   reconnectionAttempts: 5,
-  timeout: 10000
+  timeout: 10000,
+  transports: ['websocket', 'polling']
 });
 
 function App() {
